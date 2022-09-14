@@ -51,11 +51,11 @@ fi
 # Check if manual PIA OpenVPN connection is already initialized.
 # Multi-hop is out of the scope of this repo, but you should be able to
 # get multi-hop running with both OpenVPN and WireGuard.
-adapter_check=$( ip a s tun06 2>&1 )
-should_read="Device \"tun06\" does not exist"
+adapter_check=$( ifconfig tun0 &> /dev/stdout )
+should_read="ifconfig: interface tun0 does not exist"
 pid_filepath="/opt/piavpn-manual/pia_pid"
 if [[ $adapter_check != *"$should_read"* ]]; then
-  echo -e "${red}The tun06 adapter already exists, that interface is required"
+  echo -e "${red}The tun0 adapter already exists, that interface is required"
   echo -e "for this configuration.${nc}"
   if [[ -f $pid_filepath ]]; then
     old_pid=$( cat "$pid_filepath" )
@@ -69,7 +69,7 @@ if [[ $adapter_check != *"$should_read"* ]]; then
       read -r close_connection
     fi
     if echo "${close_connection:0:1}" | grep -iq n; then
-      echo -e "${red}Closing script. Resolve tun06 adapter conflict and run the script again."
+      echo -e "${red}Closing script. Resolve tun0 adapter conflict and run the script again."
       exit 1
     fi
     echo

@@ -35,7 +35,7 @@ check_tool jq
 
 # This function creates a timestamp, to use for setting $TOKEN_EXPIRATION
 timeout_timestamp() {
-  date +"%c" --date='1 day' # Timestamp 24 hours
+  date -v+1d +"%a %d %b %Y %r %Z" # Timestamp 24 hours
 }
 
 # Check if terminal allows output, if yes, define colors for output
